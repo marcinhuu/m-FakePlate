@@ -54,6 +54,9 @@ function ChangePlate(veh)
     SetVehicleNumberPlateText(veh, Language.Plate..Matricula)
     TriggerEvent(Config.Utility.VehicleKeysTrigger, QBCore.Functions.GetPlate(veh))
     Notify(Language.NewPlate..Matricula)
+    if Config.Utility.CooldownEnable then
+        Cooldown()
+    end
 end
 
 function Cooldown() esperar = true Wait(Config.Utility.Cooldown) esperar = false end
