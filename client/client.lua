@@ -1,10 +1,7 @@
 local QBCore = exports[Config.Utility.CoreName]:GetCoreObject()
 local esperar = false
-
---------------------
--- Peds
---------------------
 local peds = Config.Utility.Peds
+
 CreateThread(function()
     for _, item in pairs(peds) do RequestModel(item.hash) while not HasModelLoaded(item.hash) do Wait(1) end
         ped =  CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
@@ -13,9 +10,6 @@ CreateThread(function()
     end
 end)
 
---------------------
--- Blips
---------------------
 CreateThread(function()
     if Config.Utility.Blips.Enable then
     for _, info in pairs(Config.Utility.Locations) do local blip = AddBlipForCoord(info.x, info.y, info.z) SetBlipSprite(blip, Config.Utility.Blips.Sprite) SetBlipDisplay(blip, 4) SetBlipScale(blip, Config.Utility.Blips.Scale) SetBlipAsShortRange(blip, true)
@@ -23,14 +17,6 @@ CreateThread(function()
     end end 
 end)
 
-RegisterNetEvent('m-FakePlate:Client:Notify')
-AddEventHandler('m-FakePlate:Client:Notify', function(msg)
-    Notify(msg)
-end)
-
---------------------
--- Targets
---------------------
 CreateThread(function ()
     for k, v in pairs(Config.Utility.Locations) do
         name = "FakePlate"..k
