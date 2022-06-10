@@ -4,7 +4,12 @@ Description 'FakePlate'
 game 'gta5'
 
 shared_scripts { 
-    "configs/*.lua",
+    "config.lua",
+}
+
+server_script { 
+    '@oxmysql/lib/MySQL.lua',
+    "server/**.lua",
 }
 
 client_script {

@@ -20,29 +20,49 @@ end)
 CreateThread(function ()
     for k, v in pairs(Config.Utility.Locations) do
         name = "FakePlate"..k
-        exports[Config.Utility.Target]:AddBoxZone(name, vector3(v.x, v.y, v.z), 2, 2, { name = name, heading = 0, debugPoly = false,}, {options = {{event = "m-FakePlate:Client:UsarFakePlate", icon = "fas fa-car", label = Language.FakePlate },}, distance = 5.0})
+        exports[Config.Utility.Target]:AddBoxZone(name, vector3(v.x, v.y, v.z), 2, 2, { name = name, heading = 0, debugPoly = false,}, 
+        {options = {{event = "m-FakePlate:Client:UsarFakePlate", icon = "fas fa-car", label = "I need a fakeplate" },
+        --{event = "m-FakePlate:Client:ColocarOldPlate", icon = "fas fa-car", label = "Original Plate" },
+        }, distance = 5.0})
     end
 end)
 
 RegisterNetEvent('m-FakePlate:Client:UsarFakePlate')
 AddEventHandler('m-FakePlate:Client:UsarFakePlate', function()
     local job = QBCore.Functions.GetPlayerData().job.name
-    if Config.Utility.NeedJob == true then if job ~= Config.Utility.JobName then Notify(Language.WrongJob) return false end end
-    if esperar then Notify(Language.Cooldown, "error") else ChangePlate() end
+    if Config.Utility.NeedJob == true then if job ~= Config.Utility.JobName then QBCore.Functions.Notify("You have the wrong job.") return false end end
+    if esperar then QBCore.Functions.Notify("There is currently a cooldown for you, You must wait longer before doing this again.", "error") else ChangePlate() end
 end)
 
-function ChangePlate(veh)
+function ChangePlate(veh, AntigaMatricula)
     local veh = GetVehiclePedIsIn(PlayerPedId(), false)
     local Matricula = tostring(math.random(1000, 9999))
-    if Config.Utility.EnableCallCops then local Chance = math.random(1,100) if Chance <= Config.Utility.ChanceCallCops then PoliceCall() end end
-    progressBar(Language.ChangingPlate)
-    Wait(5000)
-    SetVehicleNumberPlateText(veh, Language.Plate..Matricula)
-    TriggerEvent(Config.Utility.VehicleKeysTrigger, QBCore.Functions.GetPlate(veh))
-    Notify(Language.NewPlate..Matricula)
-    if Config.Utility.CooldownEnable then
-        Cooldown()
-    end
+    --local AntigaMatricula = GetVehicleNumberPlateText(veh)
+    QBCore.Functions.TriggerCallback('m-FakePlate:server:Pagar', function(cb)  
+        if cb then
+            if Config.Utility.EnableCallCops then local Chance = math.random(1,100) if Chance <= Config.Utility.ChanceCallCops then PoliceCall() end end
+            QBCore.Functions.Progressbar("progressBar", "Changing the plate...", 5000, false, true, {disableMovement = true,disableCarMovement = true,disableMouse = false,
+            disableCombat = true}, {}, {}, {}, function() end)
+            Wait(5000)
+            SetVehicleNumberPlateText(veh, "FAKE"..Matricula)
+            TriggerEvent(Config.Utility.VehicleKeysTrigger, QBCore.Functions.GetPlate(veh))
+            QBCore.Functions.Notify("Your new plate: FAKE"..Matricula)
+            Wait(2500)
+            QBCore.Functions.Notify("Your old plate: "..AntigaMatricula)
+            if Config.Utility.CooldownEnable then
+                Cooldown()
+            end
+        end
+    end)
 end
+
+--[[RegisterNetEvent('m-FakePlate:Client:ColocarOldPlate')
+AddEventHandler('m-FakePlate:Client:ColocarOldPlate', function(AntigaMatricula)
+    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
+    QBCore.Functions.Progressbar("progressBar", "A colocar a matrícula antiga...", 5000, false, true, {disableMovement = true,disableCarMovement = true,disableMouse = false,
+    disableCombat = true}, {}, {}, {}, function() end)
+    Wait(5000)
+    SetVehicleNumberPlateText(veh, AntigaMatricula)
+end)--]]
 
 function Cooldown() esperar = true Wait(Config.Utility.Cooldown) esperar = false end
