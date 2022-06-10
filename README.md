@@ -13,5 +13,3 @@
 - Enable/disable blip
 
 # Drag and Drop
-
-
