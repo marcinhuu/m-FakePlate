@@ -13,3 +13,8 @@
 - Enable/disable blip
 
 # Drag and Drop
+
+# Updates
+*10/06/2022*
+- Remove money from cash.
+- Check if have money or note.
