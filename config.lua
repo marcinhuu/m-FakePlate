@@ -15,7 +15,7 @@ Config.Utility = {
     Amount = 500, -- Amount
     VehicleKeysTrigger = "vehiclekeys:client:SetOwner",
     Peds = { 
-        {type = 4, hash = GetHashKey("s_m_m_gaffer_01"), x = 707.04,  y = -1142.53,  z = 23.51, h = 90.93}, -- Los Santos
+        {type = 4, hash = GetHashKey("s_m_m_gaffer_01"), x = 707.04,  y = -1142.53,  z = 22.51, h = 90.93}, -- Los Santos
     },
     Locations = {
         vector3(707.04, -1142.53, 23.51)
