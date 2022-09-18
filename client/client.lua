@@ -47,22 +47,13 @@ function ChangePlate(veh, AntigaMatricula)
             SetVehicleNumberPlateText(veh, "FAKE"..Matricula)
             TriggerEvent(Config.Utility.VehicleKeysTrigger, QBCore.Functions.GetPlate(veh))
             QBCore.Functions.Notify("Your new plate: FAKE"..Matricula)
-            Wait(2500)
-            QBCore.Functions.Notify("Your old plate: "..AntigaMatricula)
+            --Wait(2500)
+            --QBCore.Functions.Notify("Your old plate: "..AntigaMatricula)
             if Config.Utility.CooldownEnable then
                 Cooldown()
             end
         end
     end)
 end
-
---[[RegisterNetEvent('m-FakePlate:Client:ColocarOldPlate')
-AddEventHandler('m-FakePlate:Client:ColocarOldPlate', function(AntigaMatricula)
-    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
-    QBCore.Functions.Progressbar("progressBar", "A colocar a matrícula antiga...", 5000, false, true, {disableMovement = true,disableCarMovement = true,disableMouse = false,
-    disableCombat = true}, {}, {}, {}, function() end)
-    Wait(5000)
-    SetVehicleNumberPlateText(veh, AntigaMatricula)
-end)--]]
 
 function Cooldown() esperar = true Wait(Config.Utility.Cooldown) esperar = false end
